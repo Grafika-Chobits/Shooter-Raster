@@ -42,7 +42,9 @@
 
 #include <termios.h>
 
+#include <vector>
 
+using namespace std;
 
 #define min(X,Y) (((X) < (Y)) ? (X) : (Y))
 
@@ -969,6 +971,44 @@ void drawBomb(Frame *frame, Coord center, RGB color)
 }
 
 
+//Pattern
+vector<Coord> getFishCoordinate(Coord center) {
+	vector<Coord> fishCoord;
+
+	int xHeight = 72;
+	int yHeight = 12;
+	
+
+	fishCoord.push_back(coord(center.x, center.y));
+	fishCoord.push_back(coord(fishCoord.at(0).x + 7, fishCoord.at(0).y - 3));
+	fishCoord.push_back(coord(fishCoord.at(1).x + 10, fishCoord.at(1).y - 2));
+	fishCoord.push_back(coord(fishCoord.at(2).x + 15, fishCoord.at(2).y - 1));
+	fishCoord.push_back(coord(fishCoord.at(3).x + 15, fishCoord.at(3).y + 1));
+	fishCoord.push_back(coord(fishCoord.at(4).x + 12, fishCoord.at(4).y + 3));
+	fishCoord.push_back(coord(fishCoord.at(5).x + 7, fishCoord.at(5).y + 1));
+	fishCoord.push_back(coord(fishCoord.at(6).x + 6, fishCoord.at(6).y - 6));
+	fishCoord.push_back(coord(fishCoord.at(7).x, fishCoord.at(7).y + 12));
+	fishCoord.push_back(coord(fishCoord.at(8).x - 6, fishCoord.at(8).y - 6)); 
+	fishCoord.push_back(coord(fishCoord.at(9).x - 7, fishCoord.at(9).y + 2));
+	fishCoord.push_back(coord(fishCoord.at(10).x - 12, fishCoord.at(10).y + 3));
+	fishCoord.push_back(coord(fishCoord.at(11).x - 15, fishCoord.at(11).y + 1));
+	fishCoord.push_back(coord(fishCoord.at(12).x - 15, fishCoord.at(12).y - 1));
+	fishCoord.push_back(coord(fishCoord.at(13).x - 10, fishCoord.at(13).y - 2));
+
+	return fishCoord;
+
+}
+
+void drawFish(Frame  *frame, Coord center, RGB color) {
+	vector<Coord> fishCoord = getFishCoordinate(coord(center.x-30,center.y-20));
+	for(int i=0;i<fishCoord.size();++i) {
+		if(i!=fishCoord.size()-1)
+			plotLine(frame,fishCoord.at(i).x, fishCoord.at(i).y ,fishCoord.at(i+1).x, fishCoord.at(i+1).y, color);
+		else
+			plotLine(frame, fishCoord.at(i).x, fishCoord.at(i).y ,fishCoord.at(0).x, fishCoord.at(0).y, color);
+	}
+}
+
 
 //Coloring Raster
 
@@ -1389,10 +1429,10 @@ int main() {
 		// draw ship
 
 		drawShip(&canvas, coord(shipXPosition,shipYPosition), rgb(99,99,99));
-
+		//drawFish(&canvas, coord(shipXPosition,shipYPosition), rgb(99,99,99));
 		
 
-		//draw coloringtester
+		/*draw coloringtester
 
 		plotLine(&canvas, 100, 50, 150, 100, rgb(255,244,99));
 
@@ -1405,9 +1445,12 @@ int main() {
 
 
 		drawRaster(&canvas, raster(50, 50, 150, 150), rgb(255,244,99), rgb(230, 213, 156));
-
-		drawRaster(&canvas, raster(shipXPosition - 81, shipYPosition - 31, shipXPosition+81, shipYPosition +1), rgb(99,99,99), rgb(230, 213, 156));
-
+*/
+		drawRaster(&canvas, raster(shipXPosition - 80, shipYPosition - 30, shipXPosition+80, shipYPosition), rgb(99,99,99), rgb(230, 213, 156));
+		//drawRaster(&canvas, raster(shipXPosition - 30, shipYPosition - 28, shipXPosition+30, shipYPosition-5), rgb(99,99,99), rgb(230, 213, 156));
+		
+		//plotLine(&canvas, planeXPosition-20, planeYPosition, planeXPosition+170, planeYPosition + 35, rgb(99,99,99));
+		//drawRaster(&canvas, raster(planeXPosition-10, planeYPosition - 40, planeXPosition+170, planeYPosition + 35), rgb(99,99,99), rgb(230, 213, 156));
 
 
 		// draw stickman and cannon
